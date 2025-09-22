@@ -1,5 +1,6 @@
 // Candidate: Write your Playwright E2E test for login here.
 import { test, expect, Page } from "@playwright/test";
+
 const BASE_URL = "http://localhost:5173/";
 const VALID_USERNAME = "admin";
 const VALID_PASSWORD = "secret";
