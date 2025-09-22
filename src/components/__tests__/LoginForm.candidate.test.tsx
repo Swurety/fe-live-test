@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import LoginForm from '../LoginForm'
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
+import LoginForm from '../LoginForm';
 import { login } from '../../api/auth';
 
 jest.mock('../../api/auth', () => ({
