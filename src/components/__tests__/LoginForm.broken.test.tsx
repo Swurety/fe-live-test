@@ -16,6 +16,14 @@ test("shows welcome on successful login", async () => {
   await user.type(screen.getByLabelText(/username/i), "admin");
   await user.type(screen.getByLabelText(/password/i), "secret");
   await user.click(screen.getByRole("button", { name: /log in/i }));
+  const user = userEvent.setup();
+
+  await user.type(screen.getByLabelText(/username/i), "admin");
+  await user.type(screen.getByLabelText(/password/i), "secret");
+  await user.click(screen.getByRole("button", { name: /log in/i }));
+
+  expect(await screen.findByText(/welcome, admin/i)).toBeInTheDocument();
+});
 
   expect(await screen.findByText(/welcome, admin/i)).toBeInTheDocument();
 });
