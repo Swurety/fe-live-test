@@ -8,7 +8,7 @@ jest.mock("../../api/auth", () => ({
 }));
 
 test("shows welcome on successful login", async () => {
-  (login as jest.Mock).mockResolvedValueOnce({});
+  (login as jest.Mock).mockResolvedValueOnce({}); // mock successful login
   render(<LoginForm />);
 
   const user = userEvent.setup();
@@ -16,14 +16,9 @@ test("shows welcome on successful login", async () => {
   await user.type(screen.getByLabelText(/username/i), "admin");
   await user.type(screen.getByLabelText(/password/i), "secret");
   await user.click(screen.getByRole("button", { name: /log in/i }));
-  const user = userEvent.setup();
 
-  await user.type(screen.getByLabelText(/username/i), "admin");
-  await user.type(screen.getByLabelText(/password/i), "secret");
-  await user.click(screen.getByRole("button", { name: /log in/i }));
-
-  expect(await screen.findByText(/welcome, admin/i)).toBeInTheDocument();
-});
-
-  expect(await screen.findByText(/welcome, admin/i)).toBeInTheDocument();
+  // No jest-dom: use plain Jest assertions
+  const welcome = await screen.findByText(/welcome, admin/i);
+  expect(welcome).not.toBeNull();
+  expect(welcome.textContent).toMatch(/welcome, admin/i);
 });
