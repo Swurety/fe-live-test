@@ -1,12 +1,21 @@
-import { render, screen, fireEvent } from '@testing-library/react'
-import LoginForm from '../LoginForm'
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import LoginForm from "../LoginForm";
+import { login } from "../../api/auth";
 
-test('BROKEN: shows welcome on successful login', () => {
-  render(<LoginForm />)
+jest.mock("../../api/auth", () => ({
+  login: jest.fn(),
+}));
 
-  fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'admin' } })
-  fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'secret' } })
-  fireEvent.click(screen.getByRole('button', { name: /log in/i }))
+test("shows welcome on successful login", async () => {
+  (login as jest.Mock).mockResolvedValueOnce({});
+  render(<LoginForm />);
 
-  expect(screen.getByText(/welcome, admin/i)).toBeInTheDocument()
-})
+  const user = userEvent.setup();
+
+  await user.type(screen.getByLabelText(/username/i), "admin");
+  await user.type(screen.getByLabelText(/password/i), "secret");
+  await user.click(screen.getByRole("button", { name: /log in/i }));
+
+  expect(await screen.findByText(/welcome, admin/i)).toBeInTheDocument();
+});
